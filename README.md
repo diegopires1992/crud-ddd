@@ -1,35 +1,16 @@
-Para clonar um projeto do GitHub para a sua máquina local, siga estas instruções passo a passo:
-Abra o terminal:
+Tecnologias utilizadas:
 
-No Windows, você pode usar o PowerShell ou o Git Bash.
-No MacOS ou Linux, você pode usar o Terminal.
+1 - Git: Utilizado para versionamento de código e clonagem de repositórios do GitHub para a máquina local.
 
-Navegue até o diretório onde deseja clonar o projeto:
-Use o comando cd (change directory) para navegar até o local desejado. Por exemplo:
-cd caminho/do/diretorio
+2 - GitHub: Plataforma de hospedagem de código-fonte que permite colaboração e controle de versão usando o Git.
 
-Obtenha o URL do repositório no GitHub:
-No GitHub, vá para o repositório que deseja clonar e clique no botão "Code". Certifique-se de que o URL que você copiará seja do tipo "HTTPS" ou "SSH".
+3 - Terminal (PowerShell, Git Bash ou Terminal): Ferramenta de linha de comando para interação com o sistema operacional, utilizada para navegar entre diretórios e executar comandos.
 
-Clone o repositório:
-  Se estiver usando SSH (requer que você tenha configurado as chaves SSH), use este comando:
-    git clone git@github.com:diegopires1992/crud-ddd.git
+4 - Docker Desktop: Plataforma de contêineres que simplifica o processo de desenvolvimento, distribuição e execução de aplicativos em contêineres.
 
-Aguarde o término do processo de clonagem:
-Depois de executar o comando git clone, o Git começará a baixar todos os arquivos do repositório para o diretório atual.
+5 - Visual Studio 2022: IDE (Integrated Development Environment) utilizada para o desenvolvimento de aplicativos em diversas linguagens de programação, incluindo C#, .NET, e outras.
 
-Para instalar e configurar o Docker Desktop em sua máquina, siga estas instruções:
-
-Baixe o Docker Desktop:
-Acesse o site oficial do Docker Desktop e baixe o instalador para o seu sistema operacional (Windows ou macOS): Docker Desktop.
-
-Instale o Docker Desktop:
-Execute o instalador baixado e siga as instruções do assistente de instalação.
-
-Verifique a instalação:
-Abra o terminal (PowerShell no Windows, Terminal no macOS) e execute o seguinte comando para verificar se o Docker está instalado corretamente:
-
-docker --version
+Essas tecnologias serão empregadas para clonar o projeto do GitHub, configurar o ambiente com Docker Desktop e Visual Studio 2022, e iniciar o desenvolvimento localmente.
 
 Agora que temos o Docker instalado podemos executar o docker compose para iniciar o banco de dados sqlserver:
 ![docker](https://github.com/diegopires1992/crud-ddd/assets/66563440/293e90b4-cc50-431c-97f9-e7f46a5c8fc1)

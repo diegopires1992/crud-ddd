@@ -36,10 +36,14 @@ Essas tecnologias serão empregadas para clonar o projeto do GitHub, configurar 
 ### Pré-requisitos
 
 # Clone este repositório
+```bash
 $ git clone git@github.com:diegopires1992/crud-ddd.git
+```
 
 # Acesse a pasta do projeto no terminal/cmd
+```bash
 $ cd API_DDD
+```
 
 Depois do Docker instalado podemos executar o docker compose para iniciar o banco de dados sqlserver:
 

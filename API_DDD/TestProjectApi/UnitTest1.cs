@@ -14,7 +14,6 @@ namespace CustomerRegistration.Tests
     {
         public async Task GetUsers_ReturnsOkResult()
         {
-            // Arrange
             var userServiceMock = new Mock<IUserService>();
             var controller = new UsersController(userServiceMock.Object, null);
 
@@ -28,10 +27,8 @@ namespace CustomerRegistration.Tests
 
             userServiceMock.Setup(service => service.GetPagedUsers(pageNumber, pageSize)).ReturnsAsync(new PagedUserDTO { Users = users });
 
-            // Act
             var result = await controller.GetUsers(pageNumber, pageSize);
 
-            // Assert
             Assert.IsInstanceOfType(result.Result, typeof(OkObjectResult));
             var okResult = (OkObjectResult)result.Result;
             Assert.IsInstanceOfType(okResult.Value, typeof(List<UserDTO>));
@@ -42,7 +39,6 @@ namespace CustomerRegistration.Tests
         [TestMethod]
         public async Task AddUsers_ReturnsOkResult()
         {
-            // Arrange
             var userServiceMock = new Mock<IUserService>();
             var controller = new UsersController(userServiceMock.Object, null);
 
@@ -50,17 +46,14 @@ namespace CustomerRegistration.Tests
 
             userServiceMock.Setup(service => service.CreateUser(userDto)).ReturnsAsync(1); 
 
-            // Act
             var result = await controller.AddUsers(userDto);
 
-            // Assert
             Assert.IsInstanceOfType(result, typeof(OkResult));
         }
 
         [TestMethod]
         public async Task GetUserByPhoneNumber_ReturnsOkResult_WhenUserExists()
         {
-            // Arrange
             var userServiceMock = new Mock<IUserService>();
             var controller = new UsersController(userServiceMock.Object, null);
 
@@ -79,10 +72,8 @@ namespace CustomerRegistration.Tests
 
             userServiceMock.Setup(service => service.GetUserByPhoneNumber(phoneNumber, ddd)).ReturnsAsync(new List<UserDTO> { userDto });
 
-            // Act
             var result = await controller.GetUserByPhoneNumber(phoneNumber, ddd);
 
-            // Assert
             Assert.IsInstanceOfType(result.Result, typeof(OkObjectResult));
             var okResult = (OkObjectResult)result.Result;          
            

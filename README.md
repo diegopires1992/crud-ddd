@@ -33,9 +33,15 @@ Tecnologias utilizadas:
 
 Essas tecnologias serão empregadas para clonar o projeto do GitHub, configurar o ambiente com Docker Desktop e Visual Studio 2022, e iniciar o desenvolvimento localmente.
 
-Clone o repositorio:
+### Pré-requisitos
 
-Agora que temos o Docker instalado podemos executar o docker compose para iniciar o banco de dados sqlserver:
+# Clone este repositório
+$ git clone git@github.com:diegopires1992/crud-ddd.git
+
+# Acesse a pasta do projeto no terminal/cmd
+$ cd API_DDD
+
+Depois do Docker instalado podemos executar o docker compose para iniciar o banco de dados sqlserver:
 
 ![docker](https://github.com/diegopires1992/crud-ddd/assets/66563440/293e90b4-cc50-431c-97f9-e7f46a5c8fc1)
 

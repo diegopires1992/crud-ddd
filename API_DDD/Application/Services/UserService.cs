@@ -29,19 +29,13 @@ namespace Application.Services
 
         public async Task<int> CreateUser(UserDTO userDTO)
         {
-
             User user = _mapper.Map<User>(userDTO);
-
             user.IsActive = true;
 
             await _userRepository.AddAsync(user);
 
-            foreach (var phoneDTO in userDTO.Phones)
-            {
-                Phone phone = _mapper.Map<Phone>(phoneDTO);
-                phone.UserId = user.Id;
-                await _phoneRepository.AddAsync(phone);
-            }
+            await _phoneRepository.SaveChangesAsync();
+
             return user.Id;
         }
 

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "RTs23ybuIfvDKmFWpoE3ZcfFWagEairtlmpwGyhu78qRQuRZxdoXmzK9TGC/vnirrzwWaaZeDw1dtknB+D52qg==",
+  "dgSpecHash": "29sPYbAoDbUk+ZkIR9aZDMuUT3CKCcBJoDdX6rFq4tuQkI7T/qudyaty9v5LEtcs+7OgbLMHqMG810wxiw/F9Q==",
   "success": true,
   "projectFilePath": "C:\\Users\\Esparta\\Desktop\\API_DDD\\API_DDD\\Infrastructure\\Infrastructure.csproj",
   "expectedPackageFiles": [
@@ -35,6 +35,7 @@
     "C:\\Users\\Esparta\\.nuget\\packages\\microsoft.identitymodel.protocols.openidconnect\\6.8.0\\microsoft.identitymodel.protocols.openidconnect.6.8.0.nupkg.sha512",
     "C:\\Users\\Esparta\\.nuget\\packages\\microsoft.identitymodel.tokens\\6.8.0\\microsoft.identitymodel.tokens.6.8.0.nupkg.sha512",
     "C:\\Users\\Esparta\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
+    "C:\\Users\\Esparta\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.20.1\\microsoft.visualstudio.azure.containers.tools.targets.1.20.1.nupkg.sha512",
     "C:\\Users\\Esparta\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\Esparta\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
     "C:\\Users\\Esparta\\.nuget\\packages\\system.collections.immutable\\6.0.0\\system.collections.immutable.6.0.0.nupkg.sha512",

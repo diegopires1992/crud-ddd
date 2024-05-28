@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Z8e1g8R2PtuNre5zR0OYba6aUyJvIw+FB1apQ5/rRIhA1tgtvzvzWc/grMj7vvE+t7w0KPUyjB6bUXvcJ5jW7Q==",
+  "dgSpecHash": "djqSrjUiG9S51Iy82CnQyU2yKQ0s/rtODk7vbrtSGUPFq6KCgXyyOvj7cMgamYs27QEsDZzvkgm22aVnj/3p0A==",
   "success": true,
   "projectFilePath": "C:\\Users\\Esparta\\Desktop\\API_DDD\\API_DDD\\Domain\\Domain.csproj",
   "expectedPackageFiles": [
@@ -15,6 +15,7 @@
     "C:\\Users\\Esparta\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\6.0.0\\microsoft.extensions.logging.abstractions.6.0.0.nupkg.sha512",
     "C:\\Users\\Esparta\\.nuget\\packages\\microsoft.extensions.options\\6.0.0\\microsoft.extensions.options.6.0.0.nupkg.sha512",
     "C:\\Users\\Esparta\\.nuget\\packages\\microsoft.extensions.primitives\\6.0.0\\microsoft.extensions.primitives.6.0.0.nupkg.sha512",
+    "C:\\Users\\Esparta\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.20.1\\microsoft.visualstudio.azure.containers.tools.targets.1.20.1.nupkg.sha512",
     "C:\\Users\\Esparta\\.nuget\\packages\\system.diagnostics.diagnosticsource\\6.0.0\\system.diagnostics.diagnosticsource.6.0.0.nupkg.sha512",
     "C:\\Users\\Esparta\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512"
   ],

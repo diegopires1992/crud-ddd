@@ -13,7 +13,8 @@
           "Microsoft.EntityFrameworkCore": "6.0.21",
           "Microsoft.EntityFrameworkCore.Design": "6.0.21",
           "Microsoft.EntityFrameworkCore.SqlServer": "6.0.21",
-          "Microsoft.EntityFrameworkCore.Tools": "6.0.21"
+          "Microsoft.EntityFrameworkCore.Tools": "6.0.21",
+          "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": "1.20.1"
         },
         "runtime": {
           "Infrastructure.dll": {}
@@ -366,6 +367,7 @@
         }
       },
       "Microsoft.NETCore.Platforms/3.1.0": {},
+      "Microsoft.VisualStudio.Azure.Containers.Tools.Targets/1.20.1": {},
       "Microsoft.Win32.Registry/4.7.0": {
         "dependencies": {
           "System.Security.AccessControl": "4.7.0",
@@ -539,7 +541,8 @@
       },
       "Domain/1.0.0": {
         "dependencies": {
-          "Entities": "1.0.0"
+          "Entities": "1.0.0",
+          "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": "1.20.1"
         },
         "runtime": {
           "Domain.dll": {}
@@ -547,7 +550,8 @@
       },
       "Entities/1.0.0": {
         "dependencies": {
-          "Microsoft.Extensions.Identity.Stores": "6.0.7"
+          "Microsoft.Extensions.Identity.Stores": "6.0.7",
+          "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": "1.20.1"
         },
         "runtime": {
           "Entities.dll": {}
@@ -777,6 +781,13 @@
       "sha512": "sha512-z7aeg8oHln2CuNulfhiLYxCVMPEwBl3rzicjvIX+4sUuCwvXw5oXQEtbiU2c0z4qYL5L3Kmx0mMA/+t/SbY67w==",
       "path": "microsoft.netcore.platforms/3.1.0",
       "hashPath": "microsoft.netcore.platforms.3.1.0.nupkg.sha512"
+    },
+    "Microsoft.VisualStudio.Azure.Containers.Tools.Targets/1.20.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-H4bIRdEOuyWBotgdPA5oCjJmUekWrtU5lOKnMAVaSNduZXHnqFZECsYbkm4vIOE4aeIO8TEYqfsZaJus1KknLQ==",
+      "path": "microsoft.visualstudio.azure.containers.tools.targets/1.20.1",
+      "hashPath": "microsoft.visualstudio.azure.containers.tools.targets.1.20.1.nupkg.sha512"
     },
     "Microsoft.Win32.Registry/4.7.0": {
       "type": "package",

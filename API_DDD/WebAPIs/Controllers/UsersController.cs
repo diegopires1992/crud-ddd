@@ -46,7 +46,8 @@ namespace WebAPIs.Controllers
         {
             var user = await _userService.GetUserByPhoneNumber(phoneNumber, ddd);
             if (user == null)
-                return NotFound();
+                return Ok(new UserDTO[0]);
+
             return Ok(user);
         }
 

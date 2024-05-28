@@ -80,3 +80,4 @@ C:\Users\Esparta\Desktop\API_DDD\API_DDD\WebAPIs\bin\Debug\net6.0\AutoMapper.dll
 C:\Users\Esparta\Desktop\API_DDD\API_DDD\WebAPIs\bin\Debug\net6.0\Application.dll
 C:\Users\Esparta\Desktop\API_DDD\API_DDD\WebAPIs\bin\Debug\net6.0\Application.pdb
 C:\Users\Esparta\Desktop\API_DDD\API_DDD\WebAPIs\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\Esparta\Desktop\API_DDD\API_DDD\WebAPIs\obj\Debug\net6.0\WebAPIs.sourcelink.json

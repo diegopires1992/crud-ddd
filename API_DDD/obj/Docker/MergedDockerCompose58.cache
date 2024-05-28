@@ -1,0 +1,94 @@
+name: dockercompose14119979053577723968
+services:
+  migrations:
+    command:
+      - sh
+      - -c
+      - dotnet restore; dotnet ef database update --project Infrastructure
+    environment:
+      ConnectionStrings__ConnectionDefault: Server=mssql;Initial Catalog=ClientManager;User Id=SA;Password=Password123!;Encrypt=False;
+    image: mcr.microsoft.com/dotnet/sdk:6.0
+    networks:
+      default: null
+    volumes:
+      - type: bind
+        source: C:\Users\Esparta\Desktop\API_DDD\API_DDD
+        target: /usr/src/app
+        bind:
+          create_host_path: true
+    working_dir: /usr/src/app
+  mssql:
+    command:
+      - sh
+      - -c
+      - ' chmod +x ./entrypoint.sh; ./entrypoint.sh & /opt/mssql/bin/sqlservr;'
+    depends_on:
+      mssqldata:
+        condition: service_started
+        required: true
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: Password123!
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 1433
+        published: "1433"
+        protocol: tcp
+    volumes:
+      - type: volume
+        target: /var/opt/mssql
+        volume: {}
+      - type: bind
+        source: C:\Users\Esparta\Desktop\API_DDD\API_DDD
+        target: /usr/src/app
+        bind:
+          create_host_path: true
+    volumes_from:
+      - mssqldata
+    working_dir: /usr/src/app
+  mssqldata:
+    entrypoint:
+      - /bin/bash
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    networks:
+      default: null
+  webapis:
+    build:
+      context: C:\Users\Esparta\Desktop\API_DDD\API_DDD
+      dockerfile: WebAPIs/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: https://+:443;http://+:80
+    image: webapis
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 80
+        published: "8080"
+        protocol: tcp
+      - mode: ingress
+        target: 80
+        protocol: tcp
+      - mode: ingress
+        target: 443
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: C:\Users\Esparta\AppData\Roaming/Microsoft/UserSecrets
+        target: /root/.microsoft/usersecrets
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\Esparta\AppData\Roaming/ASP.NET/Https
+        target: /root/.aspnet/https
+        read_only: true
+        bind:
+          create_host_path: true
+networks:
+  default:
+    name: dockercompose14119979053577723968_default

@@ -15,3 +15,4 @@ C:\Users\Esparta\Desktop\API_DDD\API_DDD\Application\obj\Debug\net6.0\Applicatio
 C:\Users\Esparta\Desktop\API_DDD\API_DDD\Application\obj\Debug\net6.0\refint\Application.dll
 C:\Users\Esparta\Desktop\API_DDD\API_DDD\Application\obj\Debug\net6.0\Application.pdb
 C:\Users\Esparta\Desktop\API_DDD\API_DDD\Application\obj\Debug\net6.0\ref\Application.dll
+C:\Users\Esparta\Desktop\API_DDD\API_DDD\Application\obj\Debug\net6.0\Application.sourcelink.json

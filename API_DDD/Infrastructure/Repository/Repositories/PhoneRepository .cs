@@ -27,12 +27,16 @@ namespace Infrastructure.Repository.Repositories
         public async Task AddAsync(Phone phone)
         {
             _context.Phones.Add(phone);
-            await _context.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(Phone phone)
         {
             _context.Entry(phone).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task SaveChangesAsync()
+        {
             await _context.SaveChangesAsync();
         }
 

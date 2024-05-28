@@ -12,7 +12,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<ContextBase>(
-    options => options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionDefault"))
+    options => options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionDefault"),
+    sqlServerOptions => sqlServerOptions.EnableRetryOnFailure()
+    )
 );
 
 

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "MBzrpNTg3ql5vTnKqukA7YyZrQ8lrmJ8ZNfArDuihfisQld9gtj+nvDdI4nYgRXyGb8khYuSqzaHCoFMjlnA+A==",
+  "dgSpecHash": "9PAOAlwHfTo+F/SAoF7Z++IiZkThelY9neWvssLusYZ1uvW4Zbb0rAhQQZCTD12datyZbuMDZMyKcVMg0L21tg==",
   "success": true,
   "projectFilePath": "C:\\Users\\Esparta\\Desktop\\API_DDD\\API_DDD\\WebAPIs\\WebAPIs.csproj",
   "expectedPackageFiles": [
@@ -38,6 +38,7 @@
     "C:\\Users\\Esparta\\.nuget\\packages\\microsoft.identitymodel.tokens\\6.8.0\\microsoft.identitymodel.tokens.6.8.0.nupkg.sha512",
     "C:\\Users\\Esparta\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
     "C:\\Users\\Esparta\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\Esparta\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.20.1\\microsoft.visualstudio.azure.containers.tools.targets.1.20.1.nupkg.sha512",
     "C:\\Users\\Esparta\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\Esparta\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
     "C:\\Users\\Esparta\\.nuget\\packages\\swashbuckle.aspnetcore\\6.5.0\\swashbuckle.aspnetcore.6.5.0.nupkg.sha512",

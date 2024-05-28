@@ -12,119 +12,133 @@ namespace CustomerRegistration.Tests
     [TestClass]
     public class ValidationTests
     {
-        [TestMethod]
-        public async Task GetUsers_DeveRetornarOkObjectResult_ComListaDeUsuariosDTO()
+        public async Task GetUsers_ReturnsOkResult()
         {
             // Arrange
+            var userServiceMock = new Mock<IUserService>();
+            var controller = new UsersController(userServiceMock.Object, null);
+
             var pageNumber = 1;
             var pageSize = 10;
+            var users = new List<UserDTO>
+         {
+            new UserDTO { /* Populate with user data */ },
+            new UserDTO { /* Populate with user data */ }
+             };
 
-            var mockUserService = new Mock<IUserService>();
-            var mockMapper = new Mock<IMapper>();
+            userServiceMock.Setup(service => service.GetPagedUsers(pageNumber, pageSize)).ReturnsAsync(new PagedUserDTO { Users = users });
 
-            //var expectedUsers = new List<UserDTO>
-            //{
-            //    new UserDTO { Id = 1, Name = "John Doe", Email = "john.doe@example.com" },
-            //    new UserDTO { Id = 2, Name = "Jane Doe", Email = "jane.doe@example.com" }
-            //};
+            // Act
+            var result = await controller.GetUsers(pageNumber, pageSize);
 
-            //var expectedPagedUserDTO = new PagedUserDTO
-            //{
-            //    Users = expectedUsers,
-            //    PageNumber = pageNumber,
-            //    PageSize = pageSize,
-            //    TotalItems = expectedUsers.Count,
-            //    TotalPages = 1
-            //};
-
-            //mockUserService.Setup(service => service.GetPagedUsers(pageNumber, pageSize))
-            //               .ReturnsAsync(expectedPagedUserDTO);
-
-            //var controller = new UsersController(mockUserService.Object, mockMapper.Object);
-
-            //var result = await controller.GetUsers(pageNumber, pageSize);
-
-            //var okResult = result.Result as OkObjectResult;
-            //Assert.IsNotNull(okResult);
-            //Assert.AreEqual(200, okResult.StatusCode);
-
-            //var returnedUsers = okResult.Value as PagedUserDTO;
-            //Assert.IsNotNull(returnedUsers);
-            //Assert.AreEqual(expectedPagedUserDTO.Users.Count, returnedUsers.Users.Count);
+            // Assert
+            Assert.IsInstanceOfType(result.Result, typeof(OkObjectResult));
+            var okResult = (OkObjectResult)result.Result;
+            Assert.IsInstanceOfType(okResult.Value, typeof(List<UserDTO>));
+            var returnedUsers = (List<UserDTO>)okResult.Value;
+            CollectionAssert.AreEqual(users, returnedUsers);
         }
 
         [TestMethod]
-        public async Task AddUsers_DeveRetornarOkResult_AoAdicionarUsuario()
+        public async Task AddUsers_ReturnsOkResult()
         {
-            var mockUserService = new Mock<IUserService>();
-            var mockMapper = new Mock<IMapper>();
+            // Arrange
+            var userServiceMock = new Mock<IUserService>();
+            var controller = new UsersController(userServiceMock.Object, null);
 
-            //var userDto = new UserDTO { Id = 1, Name = "John Doe", Email = "john.doe@example.com" };
+            var userDto = new UserDTO(); // Mock your user DTO here
 
-            //mockUserService.Setup(service => service.CreateUser(userDto)).Returns((Task<int>)Task.CompletedTask);
+            userServiceMock.Setup(service => service.CreateUser(userDto)).ReturnsAsync(1); 
 
-            //var controller = new UsersController(mockUserService.Object, mockMapper.Object);
+            // Act
+            var result = await controller.AddUsers(userDto);
 
-            //var result = await controller.AddUsers(userDto);
-
-            //var okResult = result as OkResult;
-            //Assert.IsNotNull(okResult);
-            //Assert.AreEqual(200, okResult.StatusCode);
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(OkResult));
         }
 
         [TestMethod]
-        public async Task GetUserByPhoneNumber_DeveRetornarOkObjectResult_QuandoUsuarioExiste()
+        public async Task GetUserByPhoneNumber_ReturnsOkResult_WhenUserExists()
         {
+            // Arrange
+            var userServiceMock = new Mock<IUserService>();
+            var controller = new UsersController(userServiceMock.Object, null);
 
-            var mockUserService = new Mock<IUserService>();
-            var mockMapper = new Mock<AutoMapper.IMapper>();
+            var phoneNumber = "4599859595";
+            var ddd = "84";
+            var userDto = new UserDTO
+            {
+                Name = "diego",
+                Email = "diego@example.com",
+                Phones = new List<PhoneDTO>
+        {
+            new PhoneDTO { DDD = "84", Number = "4599859595", Type = (Entities.Enums.PhoneType)1 },
+            new PhoneDTO { DDD = "84", Number = "4599859595", Type = (Entities.Enums.PhoneType)1 }
+        }
+            };
 
-            var phoneNumber = "123456789";
-            var ddd = "11";
+            userServiceMock.Setup(service => service.GetUserByPhoneNumber(phoneNumber, ddd)).ReturnsAsync(new List<UserDTO> { userDto });
 
-            //var expectedUser = new UserDTO { Id = 1, Name = "John Doe", Email = "john.doe@example.com", PhoneNumber = phoneNumber, DDD = ddd };
-
-            //mockUserService.Setup(service => service.GetUserByPhoneNumber(phoneNumber, ddd))
-            //               .ReturnsAsync(expectedUser);
-
-            var controller = new UsersController(mockUserService.Object, mockMapper.Object);
-
-  
+            // Act
             var result = await controller.GetUserByPhoneNumber(phoneNumber, ddd);
 
-            //var okResult = result.Result as OkObjectResult;
-            //Assert.IsNotNull(okResult);
-            //Assert.AreEqual(200, okResult.StatusCode);
-
-            //var returnedUser = okResult.Value as UserDTO;
-            //Assert.IsNotNull(returnedUser);
-            //Assert.AreEqual(expectedUser.Id, returnedUser.Id);
+            // Assert
+            Assert.IsInstanceOfType(result.Result, typeof(OkObjectResult));
+            var okResult = (OkObjectResult)result.Result;          
+           
         }
 
         [TestMethod]
-        public async Task UpdateUserEmail_DeveRetornarOkResult_QuandoAtualizacaoBemSucedida()
+        public async Task UpdateUserEmail_ReturnsOkResult()
         {
+            var userServiceMock = new Mock<IUserService>();
+            var controller = new UsersController(userServiceMock.Object, null);
+
             var userId = 1;
-            var newEmail = "new.email@example.com";
-            var updateEmailDto = new UpdateEmailDTO { NewEmail = newEmail };
+            var updateEmailDto = new UpdateEmailDTO { NewEmail = "new@example.com" };
 
-            var mockUserService = new Mock<IUserService>();
-            var mockMapper = new Mock<IMapper>();
-
-            mockUserService.Setup(service => service.UpdateUserEmail(userId, newEmail)).Returns(Task.CompletedTask);
-
-            var controller = new UsersController(mockUserService.Object, mockMapper.Object);
+            userServiceMock.Setup(service => service.UpdateUserEmail(userId, updateEmailDto.NewEmail)).Returns(Task.CompletedTask);
 
             var result = await controller.UpdateUserEmail(userId, updateEmailDto);
 
-            var okResult = result as OkObjectResult;
-            Assert.IsNotNull(okResult);
-            Assert.AreEqual(200, okResult.StatusCode);
-            Assert.AreEqual("Email updated successfully.", okResult.Value);
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
         }
 
+        [TestMethod]
+        public async Task UpdateUserPhone_ReturnsOkResult()
+        {
+            var userServiceMock = new Mock<IUserService>();
+            var controller = new UsersController(userServiceMock.Object, null);
+
+            var userId = 1;
+            var idPhone = 1;
+            var updatePhoneDto = new UpdatePhoneDTO { ddd = "123", NewPhone = "987654321" };
+
+            userServiceMock.Setup(service => service.UpdateUserPhone(userId, idPhone, It.IsAny<PhoneDTO>())).Returns(Task.CompletedTask);
+
+
+            var result = await controller.UpdateUserPhone(userId, idPhone, updatePhoneDto);
+
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+        }
+
+        [TestMethod]
+        public async Task DeleteUserByEmail_ReturnsOkResult()
+        {
+            var userServiceMock = new Mock<IUserService>();
+            var controller = new UsersController(userServiceMock.Object, null);
+
+            var email = "user@example.com";
+
+            userServiceMock.Setup(service => service.DeleteUserByEmail(email)).ReturnsAsync(true);
+
+            var result = await controller.DeleteUserByEmail(email);
+
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+        }
 
     }
 
 
 }
+

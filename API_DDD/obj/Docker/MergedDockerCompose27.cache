@@ -1,0 +1,189 @@
+name: dockercompose14119979053577723968
+services:
+  migrations:
+    command:
+      - sh
+      - -c
+      - dotnet restore; dotnet ef database update --project Infrastructure
+    depends_on:
+      mssql:
+        condition: service_started
+        required: true
+    environment:
+      ConnectionStrings__ConnectionDefault: Server=mssql;Initial Catalog=ClientManager;User Id=SA;Password=Password123!;Encrypt=False;
+    image: mcr.microsoft.com/dotnet/sdk:6.0
+    networks:
+      default: null
+    volumes:
+      - type: bind
+        source: C:\Users\Esparta\Desktop\API_DDD\API_DDD
+        target: /usr/src/app
+        bind:
+          create_host_path: true
+    working_dir: /usr/src/app
+  mssql:
+    command:
+      - sh
+      - -c
+      - chmod +x ./entrypoint.sh; ./entrypoint.sh & /opt/mssql/bin/sqlservr
+    depends_on:
+      mssqldata:
+        condition: service_started
+        required: true
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: Password123!
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - sqlcmd -U SA -P Password123! -Q 'SELECT 1'
+      timeout: 10s
+      interval: 30s
+      retries: 5
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 1433
+        published: "1433"
+        protocol: tcp
+    volumes:
+      - type: volume
+        source: mssqldata_volume
+        target: /var/opt/mssql
+        volume: {}
+      - type: bind
+        source: C:\Users\Esparta\Desktop\API_DDD\API_DDD
+        target: /usr/src/app
+        bind:
+          create_host_path: true
+    working_dir: /usr/src/app
+  mssqldata:
+    entrypoint:
+      - /bin/bash
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    networks:
+      default: null
+    volumes:
+      - type: volume
+        source: mssqldata_volume
+        target: /var/opt/mssql
+        volume: {}
+  webapis:
+    build:
+      context: C:\Users\Esparta\Desktop\API_DDD\API_DDD
+      dockerfile: WebAPIs/Dockerfile
+      args:
+        BUILD_CONFIGURATION: Debug
+      labels:
+        com.microsoft.created-by: visual-studio
+        com.microsoft.visual-studio.project-name: WebAPIs
+      target: base
+    container_name: WebAPIs_1
+    depends_on:
+      mssql:
+        condition: service_started
+        required: true
+    entrypoint:
+      - tail
+      - -f
+      - /dev/null
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS: "true"
+      ASPNETCORE_URLS: https://+:443;http://+:80
+      ConnectionStrings__ConnectionDefault: Server=mssql;Initial Catalog=ClientManager;User Id=SA;Password=Password123!;Encrypt=False;
+      DOTNET_USE_POLLING_FILE_WATCHER: "1"
+      NUGET_FALLBACK_PACKAGES: ""
+    image: webapis:dev
+    labels:
+      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath /.nuget/packages  "/app/bin/Debug/net6.0/WebAPIs.dll"'
+      com.microsoft.visualstudio.debuggee.killprogram: /bin/sh -c "if PID=$$(pidof dotnet); then kill $$PID; fi"
+      com.microsoft.visualstudio.debuggee.program: dotnet
+      com.microsoft.visualstudio.debuggee.workingdirectory: /app
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 80
+        published: "8080"
+        protocol: tcp
+      - mode: ingress
+        target: 80
+        protocol: tcp
+      - mode: ingress
+        target: 443
+        protocol: tcp
+    tty: true
+    volumes:
+      - type: bind
+        source: C:\Users\Esparta\AppData\Roaming/Microsoft/UserSecrets
+        target: /root/.microsoft/usersecrets
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\Esparta\AppData\Roaming/ASP.NET/Https
+        target: /root/.aspnet/https
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\Esparta\Desktop\API_DDD\API_DDD\WebAPIs
+        target: /app
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\Esparta\Desktop\API_DDD\API_DDD
+        target: /src
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\Esparta\vsdbg\vs2017u5
+        target: /remote_debugger
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\Esparta\.nuget\packages\
+        target: /.nuget/packages
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\Esparta\AppData\Roaming/ASP.NET/Https
+        target: /home/app/.aspnet/https
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\Esparta\AppData\Roaming/Microsoft/UserSecrets
+        target: /home/app/.microsoft/usersecrets
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: D:\visualstudio\MSBuild\Sdks\Microsoft.Docker.Sdk\tools\TokenService.Proxy\linux-x64\net6.0
+        target: /TokenService.Proxy
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: D:\visualstudio\MSBuild\Sdks\Microsoft.Docker.Sdk\tools\HotReloadProxy\linux-x64\net6.0
+        target: /HotReloadProxy
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: D:\visualstudio\Common7\IDE\CommonExtensions\Microsoft\HotReload
+        target: /HotReloadAgent
+        read_only: true
+        bind:
+          create_host_path: true
+networks:
+  default:
+    name: dockercompose14119979053577723968_default
+volumes:
+  mssqldata_volume:
+    name: dockercompose14119979053577723968_mssqldata_volume
+    driver: local

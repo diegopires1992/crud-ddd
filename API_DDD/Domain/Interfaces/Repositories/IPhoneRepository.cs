@@ -16,5 +16,6 @@ namespace Domain.Interfaces.Repositories
         Task<List<Phone>> GetPhonesByUserIdAsync(int userId);
         Task<Phone> GetByPhoneNumberAsync(string ddd, string number);
         Task<List<int>> GetUserIdsByPhoneNumberAsync(string phoneNumber);
+        Task SaveChangesAsync();
     }
 }

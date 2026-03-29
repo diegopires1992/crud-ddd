@@ -1,67 +1,226 @@
-<h1 align="center">Crud com DDD</h1>
+# CRUD with DDD (.NET 6)
 
-<p align="center">Padrões de Projeto Utilizados: Incorporamos alguns padrões de projeto, como o Repository Pattern e o Dependency Injection, para promover a modularidade, reutilização de código e melhor organização do código-fonte. Além disso, adotamos o uso de DTOs (Data Transfer Objects) para a transferência de dados entre camadas, aumentando a segurança e a eficiência das operações. Utilizamos o Entity Framework, um ORM (Object-Relational Mapping), para facilitar o acesso aos dados de forma mais intuitiva.</p>
+A customer management API built with Domain-Driven Design (DDD) layering, focused on clean separation of concerns, maintainability, and a straightforward local developer experience.
 
+## Overview
 
-### Features
+This project exposes a REST API for customer lifecycle operations:
 
-- [x] Cadastrar o cliente informando o nome completo, e-mail e uma lista de telefones informando o DDD, número e o tipo [fixo ou celular];
-- [x] Permitir consultar todos os clientes com seus respectivos e-mails e telefones;
-- [x] Permitir a consulta de um cliente através do DDD e número;
-- [x] Permitir a atualização do e-mail do cliente cadastrado;
-- [x] Permitir a atualização do telefone do cliente cadastrado;
-- [x] Permitir a exclusão de um cliente através do e-mail.
+- Create customers with one or many phone numbers
+- List customers with pagination
+- Search customers by phone number + area code (DDD)
+- Update customer email
+- Update customer phone
+- Soft-delete customer by email
 
-Requisitos técnicos:
+The solution is organized using a layered architecture inspired by DDD, with repositories, services, DTOs, and EF Core persistence.
 
-1 - Desenvolver em .Net 6.0;
-2 - Utilizar base de dados local;
-3 - Criar testes de unidade;
-4 - Documentar a WebApi via Swagger.
+## Architecture
 
-Tecnologias utilizadas:
+The solution follows a classic DDD-style separation:
 
-1 - Git: Utilizado para versionamento de código e clonagem de repositórios do GitHub para a máquina local.
+- `WebAPIs`: HTTP layer (controllers, Swagger, dependency injection wiring)
+- `Application`: use cases, DTOs, mapping profiles, service contracts/implementations
+- `Domain`: domain contracts (repository interfaces, shared abstractions)
+- `Infrastructure`: EF Core context, migrations, repository implementations
+- `Entities`: domain entities and enums
+- `TestProjectApi`: unit/integration-style tests for API behavior
 
-2 - GitHub: Plataforma de hospedagem de código-fonte que permite colaboração e controle de versão usando o Git.
+### Request Flow
 
-3 - Terminal (PowerShell, Git Bash ou Terminal): Ferramenta de linha de comando para interação com o sistema operacional, utilizada para navegar entre diretórios e executar comandos.
+`HTTP Request -> Controller -> Application Service -> Repository -> EF Core -> SQL Server`
 
-4 - Docker Desktop: Plataforma de contêineres que simplifica o processo de desenvolvimento, distribuição e execução de aplicativos em contêineres.
+## Tech Stack
 
-5 - Visual Studio 2022: IDE (Integrated Development Environment) utilizada para o desenvolvimento de aplicativos em diversas linguagens de programação, incluindo C#, .NET, e outras.
+- .NET 6 (ASP.NET Core Web API)
+- Entity Framework Core 6
+- SQL Server 2019 (Docker Compose)
+- AutoMapper
+- Swagger / OpenAPI (Swashbuckle)
+- MSTest + Moq + Coverlet
 
-Essas tecnologias serão empregadas para clonar o projeto do GitHub, configurar o ambiente com Docker Desktop e Visual Studio 2022, e iniciar o desenvolvimento localmente.
+## API Contracts
 
-### Pré-requisitos
+### User (create payload)
 
-# Clone este repositório
-```bash
-$ git clone git@github.com:diegopires1992/crud-ddd.git
+```json
+{
+  "name": "John Doe",
+  "email": "john.doe@example.com",
+  "phones": [
+    {
+      "ddd": "11",
+      "number": "999999999",
+      "type": 2
+    }
+  ]
+}
 ```
 
-# Acesse a pasta do projeto no terminal/cmd
+`type` values:
+
+- `1` = `Fixo` (landline)
+- `2` = `Celular` (mobile)
+
+### Endpoints
+
+Base route: `api/users`
+
+- `GET /api/users?pageNumber=1&pageSize=10`
+  - Returns paginated users (`users`, `pageNumber`, `pageSize`, `totalItems`, `totalPages`)
+- `POST /api/users`
+  - Creates a user
+- `GET /api/users/SearchByPhoneNumber?phoneNumber=999999999&ddd=11`
+  - Returns users matching phone + DDD
+- `PUT /api/users/{userId}/update-email`
+  - Body: `{ "newEmail": "new@mail.com" }`
+- `PATCH /api/users/{userId}/update-phone/{idPhone}`
+  - Body: `{ "newPhone": "988887777", "ddd": "11" }`
+- `DELETE /api/users/delete-by-email?email=user@mail.com`
+  - Performs soft delete (`IsActive = false`)
+
+## Getting Started
+
+### Prerequisites
+
+- Docker Desktop
+- .NET 6 SDK
+- (Optional) Visual Studio 2022
+
+### 1. Clone repository
+
 ```bash
-$ cd API_DDD
+git clone git@github.com:diegopires1992/crud-ddd.git
+cd crud-ddd
 ```
 
-Depois do Docker instalado podemos executar o docker compose para iniciar o banco de dados sqlserver:
+### 2. Start SQL Server container
 
-![docker](https://github.com/diegopires1992/crud-ddd/assets/66563440/293e90b4-cc50-431c-97f9-e7f46a5c8fc1)
+From repository root:
 
-Agora executar o comando para fazer o migração para banco:
+```bash
+docker compose up -d
+```
 
-![migrations](https://github.com/diegopires1992/crud-ddd/assets/66563440/ea61921f-5c2d-4567-ac8c-af8a5a17b905)
+This project uses:
 
-Depois disso vamos usar o visual studio para executar:
+- SQL Server image: `mcr.microsoft.com/mssql/server:2019-latest`
+- Exposed port: `1433`
+- SA password (dev only): `Password123!`
 
-![start](https://github.com/diegopires1992/crud-ddd/assets/66563440/99a3450f-8b12-4c62-89ce-288fa2dae780)
+### 3. Apply EF Core migrations
 
-Depois de executar vamos tem acesso Swagger:
+From `API_DDD` directory:
 
+```bash
+dotnet ef database update --project Infrastructure --startup-project WebAPIs
+```
 
-![Swagger](https://github.com/diegopires1992/crud-ddd/assets/66563440/5ce00a4c-d452-47b9-8cf8-a33ae5ac3a5c)
+If `dotnet ef` is not available:
 
+```bash
+dotnet tool install --global dotnet-ef
+```
 
+### 4. Run the API
 
+From `API_DDD/WebAPIs`:
 
+```bash
+dotnet run
+```
+
+Default local URLs (from launch settings):
+
+- `https://localhost:7024`
+- `http://localhost:5160`
+
+Swagger UI:
+
+- `https://localhost:7024/swagger`
+- `http://localhost:5160/swagger`
+
+## Example Calls (curl)
+
+Create user:
+
+```bash
+curl -X POST "http://localhost:5160/api/users" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "phones": [
+      { "ddd": "11", "number": "999999999", "type": 2 }
+    ]
+  }'
+```
+
+List users:
+
+```bash
+curl "http://localhost:5160/api/users?pageNumber=1&pageSize=10"
+```
+
+Search by phone:
+
+```bash
+curl "http://localhost:5160/api/users/SearchByPhoneNumber?phoneNumber=999999999&ddd=11"
+```
+
+Update email:
+
+```bash
+curl -X PUT "http://localhost:5160/api/users/1/update-email" \
+  -H "Content-Type: application/json" \
+  -d '{ "newEmail": "john.new@example.com" }'
+```
+
+Update phone:
+
+```bash
+curl -X PATCH "http://localhost:5160/api/users/1/update-phone/1" \
+  -H "Content-Type: application/json" \
+  -d '{ "newPhone": "988887777", "ddd": "11" }'
+```
+
+Delete by email:
+
+```bash
+curl -X DELETE "http://localhost:5160/api/users/delete-by-email?email=john.new@example.com"
+```
+
+## Testing
+
+From `API_DDD`:
+
+```bash
+dotnet test
+```
+
+Note: test project includes MSTest + Moq setup for controller/service interactions.
+
+## Troubleshooting
+
+- No .NET SDK found:
+  - Install .NET 6 SDK and re-run commands.
+- SQL connection error on startup:
+  - Confirm container is running: `docker ps`
+  - Confirm SQL port `1433` is available.
+- Database name mismatch:
+  - `WebAPIs/appsettings.json` uses `ClientManager`, while `setup.sql` creates `Test`.
+  - Prefer keeping a single DB name across both files (recommended: `ClientManager`).
+- Migrations command fails:
+  - Ensure you are inside `API_DDD` and EF tool is installed (`dotnet-ef`).
+
+## Security Note
+
+Current credentials and connection string are development defaults and must not be used in production. For production-like setups, move secrets to environment variables or a secret manager.
+
+## Roadmap (Suggested)
+
+- Add global exception middleware with standardized error contracts
+- Add FluentValidation for richer input validation
+- Add integration tests with isolated test database
+- Add CI pipeline (build, test, static analysis)
+- Add authentication/authorization
